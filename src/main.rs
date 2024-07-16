@@ -28,6 +28,9 @@ struct Args {
     file: Option<String>,
 
     url: String,
+
+    #[arg(long, default_value = "audio_content")]
+    audio_part_name: String,
 }
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -75,7 +78,7 @@ async fn main() -> Result<()> {
                         args.data
                             .unwrap_or_else(|| "{\"language\":\"en\"}".to_string()),
                     )
-                    .part("audio_content", audio_part);
+                    .part(args.audio_part_name, audio_part);
 
                 request_builder = request_builder.multipart(form);
             } else if let Some(data) = &args.data {
